@@ -1,0 +1,5 @@
+# Never publish wrangler's own working files. It writes an account cache into
+# the asset directory during deploy, which would otherwise be served publicly.
+.wrangler
+.wrangler/**
+*.log

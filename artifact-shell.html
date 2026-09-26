@@ -1,0 +1,135 @@
+<title>Ripple Rumble</title>
+<style>
+  /* One deliberate visual world: a dark arcade cabinet. Single theme by
+     choice — every colour is painted explicitly so the page holds on any
+     host ground. */
+  :root {
+    --ring-void: #05060f;
+    --ring-deep: #0a0a14;
+    --ring-haze: #1b1b33;
+    --ring-edge: #22223c;
+    --ring-glow: rgba(40, 110, 255, 0.20);
+    --ring-dim: #4d5570;
+    --ring-text: #dfe6f2;
+  }
+
+  html, body { height: 100%; }
+
+  body {
+    margin: 0;
+    background:
+      radial-gradient(ellipse at 50% 34%, var(--ring-haze) 0%, var(--ring-deep) 55%, var(--ring-void) 100%);
+    color: var(--ring-text);
+    font-family: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding-block: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  #stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+  }
+
+  canvas#game {
+    display: block;
+    max-width: 100%;
+    background: var(--ring-void);
+    border-radius: 6px;
+    box-shadow:
+      0 0 0 2px var(--ring-edge),
+      0 0 60px var(--ring-glow),
+      0 24px 70px rgba(0, 0, 0, 0.7);
+    touch-action: none;
+    cursor: crosshair;
+  }
+
+  canvas#game:focus-visible { outline: 3px solid #6fb0ff; outline-offset: 3px; }
+
+  #hint {
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--ring-dim);
+    pointer-events: none;
+    transition: opacity 0.6s;
+    max-width: 90ch;
+  }
+
+  #hint.gone { opacity: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #hint { transition: none; }
+  }
+
+  /* Phones: the ring is 16:9, so ask for a turn rather than shrinking it to
+     a strip. Toggled by script, since inside this frame a CSS orientation
+     query describes the frame and not the device. */
+  #rotate {
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 24px;
+    text-align: center;
+    background: var(--ring-void);
+    z-index: 10;
+  }
+  #rotate strong { font-size: 21px; letter-spacing: 1px; }
+  #rotate span { font-size: 15px; color: var(--ring-dim); max-width: 32ch; line-height: 1.5; }
+  #rotate .phone {
+    width: 52px; height: 88px; border: 3px solid #6fb0ff; border-radius: 10px;
+    animation: turn 2.2s ease-in-out infinite;
+  }
+  @keyframes turn {
+    0%, 40% { transform: rotate(0deg); }
+    60%, 100% { transform: rotate(-90deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #rotate .phone { animation: none; transform: rotate(-90deg); }
+  }
+
+  .rr-rotate #rotate { display: flex; }
+  .rr-rotate #stage, .rr-rotate #hint { visibility: hidden; }
+
+  #rotate-skip {
+    margin-top: 4px;
+    padding: 12px 22px;
+    font: inherit;
+    font-size: 15px;
+    color: var(--ring-text);
+    background: rgba(18, 26, 54, 0.9);
+    border: 2px solid #33406e;
+    border-radius: 10px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #rotate-skip:active { background: rgba(47, 125, 255, 0.45); }
+</style>
+
+<div id="stage">
+  <canvas id="game" width="1280" height="720" tabindex="0"
+          aria-label="Ripple Rumble — a boxing game played with the keyboard"></canvas>
+</div>
+<p id="hint">Click the ring for sound &nbsp;·&nbsp; Online PVP is in the main menu &nbsp;·&nbsp; M: music &nbsp;·&nbsp; N: sfx</p>
+
+<div id="rotate">
+  <div class="phone"></div>
+  <strong>Turn your phone sideways</strong>
+  <span>Ripple Rumble is played in landscape. Rotate to step into the ring.</span>
+  <button id="rotate-skip" type="button">Play anyway</button>
+</div>

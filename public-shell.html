@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+<title>Ripple Rumble — Knock His Block Off!</title>
+<meta name="description" content="A browser boxing game. Five vinyl-toy fighters, one ring, and a knockout that sends the loser's head flying. Play a friend online — no sign-up." />
+<meta property="og:title" content="Ripple Rumble" />
+<meta property="og:description" content="Pick a fighter, knock his block off. Online versus, no sign-up." />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#05060f" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23070a18'/%3E%3Cg fill='%232f7dff'%3E%3Ccircle cx='20' cy='20' r='9'/%3E%3Ccircle cx='20' cy='44' r='9'/%3E%3Ccircle cx='44' cy='20' r='9'/%3E%3Ccircle cx='44' cy='44' r='9'/%3E%3Cpath d='M20 20 L44 44 M44 20 L20 44' stroke='%232f7dff' stroke-width='9' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E" />
+<style>
+  :root {
+    --ring-void: #05060f;
+    --ring-deep: #0a0a14;
+    --ring-haze: #1b1b33;
+    --ring-edge: #22223c;
+    --ring-glow: rgba(40, 110, 255, 0.20);
+    --ring-dim: #4d5570;
+    --ring-text: #dfe6f2;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+
+  /* phones: no rubber-banding, no pinch zoom, no tap flash, no text select */
+  html {
+    overscroll-behavior: none;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: none;
+  }
+
+  @supports (height: 100dvh) {
+    html, body { height: 100dvh; }     /* ignore the collapsing address bar */
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse at 50% 34%, var(--ring-haze) 0%, var(--ring-deep) 55%, var(--ring-void) 100%);
+    color: var(--ring-text);
+    font-family: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding-block: calc(10px + env(safe-area-inset-top, 0px)) calc(10px + env(safe-area-inset-bottom, 0px));
+    padding-left: 16px;
+    padding-right: 16px;
+    overflow: hidden;
+  }
+
+  #stage { display: flex; align-items: center; justify-content: center; max-width: 100%; }
+
+  canvas#game {
+    display: block;
+    max-width: 100%;
+    background: var(--ring-void);
+    border-radius: 6px;
+    box-shadow:
+      0 0 0 2px var(--ring-edge),
+      0 0 60px var(--ring-glow),
+      0 24px 70px rgba(0, 0, 0, 0.7);
+    touch-action: none;
+    cursor: crosshair;
+  }
+  canvas#game:focus-visible { outline: 3px solid #6fb0ff; outline-offset: 3px; }
+
+  #hint {
+    margin: 0;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--ring-dim);
+    pointer-events: none;
+    transition: opacity 0.6s;
+    max-width: 90ch;
+  }
+  #hint.gone { opacity: 0; }
+
+  @media (prefers-reduced-motion: reduce) { #hint { transition: none; } }
+
+  /* Portrait phone: the ring is 16:9, so ask for a turn rather than
+     shrinking it to a letterbox strip. */
+  #rotate {
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;   /* explicit, for Safari < 14.1 */
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 24px;
+    text-align: center;
+    background: var(--ring-void);
+    z-index: 10;
+  }
+  #rotate strong { font-size: 22px; letter-spacing: 1px; }
+  #rotate span { font-size: 15px; color: var(--ring-dim); max-width: 32ch; line-height: 1.5; }
+  #rotate .phone {
+    width: 54px; height: 92px; border: 3px solid #6fb0ff; border-radius: 10px;
+    animation: turn 2.2s ease-in-out infinite;
+  }
+  @keyframes turn {
+    0%, 40% { transform: rotate(0deg); }
+    60%, 100% { transform: rotate(-90deg); }
+  }
+  @media (prefers-reduced-motion: reduce) { #rotate .phone { animation: none; transform: rotate(-90deg); } }
+
+  /* Driven by JS, not a media query: Safari's orientation feature is
+     unreliable here, and inside an iframe it describes the frame rather
+     than the phone. The script measures the viewport instead. */
+  .rr-rotate #rotate { display: flex; }
+  .rr-rotate #stage, .rr-rotate #hint { visibility: hidden; }
+
+  #rotate-skip {
+    margin-top: 6px;
+    padding: 12px 22px;
+    font: inherit;
+    font-size: 15px;
+    color: var(--ring-text);
+    background: rgba(18, 26, 54, 0.9);
+    border: 2px solid #33406e;
+    border-radius: 10px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #rotate-skip:active { background: rgba(47, 125, 255, 0.45); }
+
+  /* on a phone the game should fill the screen; the hint line just wastes it */
+  @media (max-width: 900px) {
+    #hint { display: none; }
+    body { padding: 0; gap: 0; }
+  }
+</style>
+</head>
+<body>
+  <div id="stage">
+    <canvas id="game" width="1280" height="720" tabindex="0"
+            aria-label="Ripple Rumble — a boxing game played with the keyboard"></canvas>
+  </div>
+  <p id="hint">Click the ring for sound &nbsp;·&nbsp; Online PVP is in the main menu &nbsp;·&nbsp; M: music &nbsp;·&nbsp; N: sfx</p>
+
+  <div id="rotate">
+    <div class="phone"></div>
+    <strong>Turn your phone sideways</strong>
+    <span>Ripple Rumble is played in landscape. Rotate to step into the ring.</span>
+    <button id="rotate-skip" type="button">Play anyway</button>
+  </div>
+
+<script>
+/* -------------------------------------------------------------------------
+   Multiplayer configuration.
+
+   relay : your deployed Cloudflare Worker, as a wss:// URL. Leave it empty
+           and the game goes straight to peer-to-peer — it still works, it is
+           just likelier to be blocked on locked-down office wifi.
+   p2p   : set false to disable the peer-to-peer fallback entirely.
+   ------------------------------------------------------------------------- */
+window.RR_CONFIG = {
+  relay: "wss://ripple-rumble-relay.kubesmaniac.workers.dev",
+  appId: "ripple-rumble",
+  p2p: true
+
+  // renderScale: 0.66
+  // Phones render at two thirds resolution automatically, dropping further if
+  // frames run long. Set this to pin it (1 = full, 0.5 = softest/fastest).
+};
+</script>

@@ -4,6 +4,12 @@
 [![No sign-up](https://img.shields.io/badge/no%20sign--up-5ce08a?style=for-the-badge&labelColor=0a0e22)](https://ripple-rumble.kubesmaniac.workers.dev)
 [![Online PvP](https://img.shields.io/badge/online%20PvP-ffd83a?style=for-the-badge&labelColor=0a0e22)](https://ripple-rumble.kubesmaniac.workers.dev)
 
+[![King Bruiser lands a counter hook on Riptide](docs/screenshot.png)](https://ripple-rumble.kubesmaniac.workers.dev)
+
+<sub>King Bruiser catches Riptide with a counter hook. Every pixel there is drawn by the
+game at runtime from canvas paths — this screenshot is the only image file in the repo,
+and the game itself loads none.</sub>
+
 A browser boxing game in the spirit of **Rock 'Em Sock 'Em Robots** on Game Boy Advance:
 two toy fighters, one ring, and a knockout that literally sends the loser's head flying.
 Five playable characters, each with their own stats, passive trait and super move.

@@ -4,10 +4,11 @@
 [![No sign-up](https://img.shields.io/badge/no%20sign--up-5ce08a?style=for-the-badge&labelColor=0a0e22)](https://ripple-rumble.kubesmaniac.workers.dev)
 [![Online PvP](https://img.shields.io/badge/online%20PvP-ffd83a?style=for-the-badge&labelColor=0a0e22)](https://ripple-rumble.kubesmaniac.workers.dev)
 
-[![King Bruiser and Riptide trading counters](docs/gameplay.gif)](https://ripple-rumble.kubesmaniac.workers.dev)
+[![King Bruiser knocks Riptide's block off](docs/gameplay.gif)](https://ripple-rumble.kubesmaniac.workers.dev)
 
-<sub>Five seconds of a real bout, captured from the running game. No sprites, no sprite
-sheets: every frame is drawn from canvas paths as it plays.</sub>
+<sub>Nine seconds of a real bout, captured from the running game: Riptide beats the count,
+burns his Feral Frenzy super, and eats a counter hook that takes his block clean off.
+No sprites, no sprite sheets — every frame is drawn from canvas paths as it plays.</sub>
 
 A browser boxing game in the spirit of **Rock 'Em Sock 'Em Robots** on Game Boy Advance:
 two toy fighters, one ring, and a knockout that literally sends the loser's head flying.

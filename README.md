@@ -4,11 +4,10 @@
 [![No sign-up](https://img.shields.io/badge/no%20sign--up-5ce08a?style=for-the-badge&labelColor=0a0e22)](https://ripple-rumble.kubesmaniac.workers.dev)
 [![Online PvP](https://img.shields.io/badge/online%20PvP-ffd83a?style=for-the-badge&labelColor=0a0e22)](https://ripple-rumble.kubesmaniac.workers.dev)
 
-[![King Bruiser lands a counter hook on Riptide](docs/screenshot.png)](https://ripple-rumble.kubesmaniac.workers.dev)
+[![King Bruiser and Riptide trading counters](docs/gameplay.gif)](https://ripple-rumble.kubesmaniac.workers.dev)
 
-<sub>King Bruiser catches Riptide with a counter hook. Every pixel there is drawn by the
-game at runtime from canvas paths — this screenshot is the only image file in the repo,
-and the game itself loads none.</sub>
+<sub>Five seconds of a real bout, captured from the running game. No sprites, no sprite
+sheets: every frame is drawn from canvas paths as it plays.</sub>
 
 A browser boxing game in the spirit of **Rock 'Em Sock 'Em Robots** on Game Boy Advance:
 two toy fighters, one ring, and a knockout that literally sends the loser's head flying.
@@ -44,6 +43,10 @@ if you'd rather run it over HTTP than from a `file://` path.)
 | Super | `T` / `Space` | `Num 0` / `U` |
 
 `Esc` pauses · `M` music · `N` sound effects · double-click for fullscreen
+
+[![King Bruiser lands a counter hook on Riptide](docs/screenshot.png)](https://ripple-rumble.kubesmaniac.workers.dev)
+
+<sub>King Bruiser catches Riptide with a counter hook.</sub>
 
 ## The rules of the ring
 

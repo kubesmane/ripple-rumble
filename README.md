@@ -1,5 +1,9 @@
 # RIPPLE RUMBLE — *Knock His Block Off!*
 
+[![Play Ripple Rumble](https://img.shields.io/badge/▶%20PLAY%20NOW-ripple--rumble-2f7dff?style=for-the-badge&labelColor=0a0e22)](https://ripple-rumble.kubesmaniac.workers.dev)
+[![No sign-up](https://img.shields.io/badge/no%20sign--up-5ce08a?style=for-the-badge&labelColor=0a0e22)](https://ripple-rumble.kubesmaniac.workers.dev)
+[![Online PvP](https://img.shields.io/badge/online%20PvP-ffd83a?style=for-the-badge&labelColor=0a0e22)](https://ripple-rumble.kubesmaniac.workers.dev)
+
 A browser boxing game in the spirit of **Rock 'Em Sock 'Em Robots** on Game Boy Advance:
 two toy fighters, one ring, and a knockout that literally sends the loser's head flying.
 Five playable characters, each with their own stats, passive trait and super move.
@@ -9,7 +13,11 @@ there are no image or audio assets to load.
 
 ## Running it
 
-Open `index.html` in any modern browser. That's it — no build step, no server, no dependencies.
+**Just want to play?** → **[ripple-rumble.kubesmaniac.workers.dev](https://ripple-rumble.kubesmaniac.workers.dev)**
+Nothing to install, no account, works on a phone.
+
+To run it locally, open `index.html` in any modern browser. That's it — no build step,
+no server, no dependencies.
 
 Click the ring once to enable sound (browsers block audio until you interact with the page).
 

@@ -129,4 +129,10 @@ build.sh          bundles the source into both builds
 public/index.html the open-web build (no sign-in, invite links)
 relay/            optional Cloudflare Worker: the multiplayer relay
 DEPLOY.md         how to put it online
+LICENSE           MIT
 ```
+
+## License
+
+MIT — see [LICENSE](LICENSE). Do what you like with it; the fighters are yours to
+rename.
